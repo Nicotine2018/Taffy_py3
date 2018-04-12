@@ -1,9 +1,9 @@
 # coding=utf-8
 import sys
 import os
-import MySQLdb
+import pymysql
 
-from baseUtil import *
+from .baseUtil import *
 
 
 class MysqlUtil(BaseUtil):
@@ -12,7 +12,7 @@ class MysqlUtil(BaseUtil):
     def __init__(self, connection):
         """Constructor"""
         super(MysqlUtil, self).__init__(connection)
-        self.cursor = self.connection.cursor(cursorclass=MySQLdb.cursors.DictCursor)
+        self.cursor = self.connection.cursor(cursorclass=pymysql.cursors.DictCursor)
 
     def executeQuery(self, sql, params=()):
 
@@ -30,7 +30,7 @@ class MysqlUtil(BaseUtil):
         except Exception as e:
             if self.connection:
                 self.connection.rollback()
-            print e
+            print (e)
         finally:
             if result:
                 lastid = self.cursor.lastrowid

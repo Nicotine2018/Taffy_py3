@@ -24,10 +24,10 @@ class WebServiceUtil(object):
         :type args: 随便传，列表形式的
         """
         try:
-            print 'Request: \t', [json.dumps(i, ensure_ascii=False, indent=4) for i in args]
+            print ('Request: \t', [json.dumps(i, ensure_ascii=False, indent=4) for i in args])
             client = suds.client.Client(url)
             response = getattr(client.service, method)(*args)
-            print 'Response: \t', response
+            print ('Response: \t', response)
             return response
         except Exception as e:
-            print e
+            print (e)

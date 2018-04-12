@@ -1,5 +1,5 @@
 # coding=utf-8
-
+from Util.commonTool.configUtil import ConfigUtil
 from ..commonTool import *
 import redis
 from rediscluster import StrictRedisCluster
@@ -41,7 +41,7 @@ class RedisUtil(object):
                 r = StrictRedisCluster(connection_pool=pool, decode_responses=True)
             return r
         except Exception as e:
-            print e
+            print(e)
 
     @classmethod
     def execute(cls, command, key, *args, **kwargs):
@@ -79,4 +79,4 @@ class RedisUtil(object):
                 return getattr(r, command)(key, *args, **kwargs)
 
         except Exception as e:
-            print e
+            print(e)

@@ -22,25 +22,25 @@ class ConfigUtil(object):
     def getall(cls, path='/config/test.yml'):
         """获取配置文件中的配置，返回string"""
         filepath = ROOT + path
-        return yaml.load(file(filepath, 'r'))
+        return yaml.load(open(filepath, 'r'))
 
     @classmethod
     def get(cls, section, option='', path='/config/test.yml'):
         """获取配置文件中的配置，返回string"""
         filepath = ROOT + path
-        config = yaml.load(file(filepath, 'r'))
+        config = yaml.load(open(filepath, encoding='utf-8',mode='r'))
         if option:
             result = config[section][option]
         else:
             result = config[section]
 
-        return str(result) if isinstance(result, (str, unicode, int)) else result
+        return str(result) if isinstance(result, (str, int)) else result
 
     @classmethod
     def getint(cls, section, option='', path='/config/test.yml'):
         """获取配置文件中的配置，返回int"""
         filepath = ROOT + path
-        config = yaml.load(file(filepath, 'r'))
+        config = yaml.load(open(filepath, 'r'))
         if option:
             return int(config[section][option])
         else:

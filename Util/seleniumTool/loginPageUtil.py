@@ -4,9 +4,9 @@ loginPageUtil.py
 页面基本操作方法，如open，input_username，input_password，click_submit
 """
 
+from Util.commonTool.configUtil import ConfigUtil
+from Util.seleniumTool.basePageUtil import basePage
 from selenium.webdriver.common.by import By
-from basePageUtil import basePage
-from Util import *
 
 selenium_yml = '/config/selenium.yml'
 
@@ -53,7 +53,7 @@ class loginPage(basePage):
             else:
                 return None
         except Exception as e:
-            print e
+            print (e)
 
     # 切换登录模式为动态密码登录（IE下有效）
     def swich_DynPw(self):

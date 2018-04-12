@@ -5,6 +5,8 @@ from pyhessian import protocol
 import json
 import time
 import datetime
+
+from Util.commonTool.configUtil import ConfigUtil
 from ..commonTool import *
 
 
@@ -35,7 +37,7 @@ def FormatObject(obj):
 
         return obj
     except Exception as e:
-        print e
+        print(e)
 
 
 def benchmark(func):
@@ -44,7 +46,7 @@ def benchmark(func):
     def wrapper(*args, **kwargs):
         t = time.clock()
         res = func(*args, **kwargs)
-        print "Cost:\t%ss\r\n" % (time.clock() - t)
+        print("Cost:\t%ss\r\n" % (time.clock() - t))
         return res
     return wrapper
 
@@ -72,12 +74,24 @@ class HessianUtil(object):
             interface = ConfigUtil.get(confSection, 'Interface', confFile)
             url = host + ':' + port + '/' + service + '.' + interface
 
-            print '\r\nInvoke Hessian Interface:\r\nURL:\t', url
-            print 'Method:\t', method
-            res = FormatObject(getattr(HessianProxy(url, timeout=60), method)(*req))
-            print 'Req:\t', [FormatObject(i) for i in req]
-            print 'Res:\t', json.dumps(res, default=date_handler, ensure_ascii=False)
+            print('\r\nInvoke Hessian Interface:\r\nURL:\t', url)
+            print('Method:\t', method)
+            res = FormatObject(
+                getattr(
+                    HessianProxy(
+                        url,
+                        timeout=60),
+                    method)(
+                    *
+                    req))
+            print('Req:\t', [FormatObject(i) for i in req])
+            print(
+                'Res:\t',
+                json.dumps(
+                    res,
+                    default=date_handler,
+                    ensure_ascii=False))
             return res
 
         except Exception as e:
-            print e
+            print(e)

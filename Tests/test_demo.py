@@ -2,12 +2,24 @@
 
 import sys
 import os
-reload(sys)
-sys.setdefaultencoding("utf-8")
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+#reload(sys)
+#sys.setdefaultencoding("utf-8")
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+from nose.tools import nottest
+from collections import OrderedDict
 from Util import *
 from functools import partial
+from pyhessian import protocol
 
+from Util.DBTool.dbUtil import DBUtil
+from Util.OATool.OAT import OAT
+from Util.checkTool.resultCheck import *
+from Util.hessianTool.hessianUtil import HessianUtil
+from Util.httpTool.httpParam import *
+from Util.httpTool.httpUtil import *
+from Util.redisTool.redisUtil import RedisUtil
+from Util.webserviceTool.webServiceUtil import WebServiceUtil
+from Util.securityTool.securityUtil import Security
 
 class test_demo(object):
     """接口测试demo"""
@@ -69,8 +81,8 @@ class test_demo(object):
     @nottest
     def test_db(self):
         # 数据库操作demo
-        print DBUtil.execute('select * from user_info;')
-        print DBUtil.execute('select * from user_info;', confSection='Sqlserver')
+        print (DBUtil.execute('select * from user_info;'))
+        print (DBUtil.execute('select * from user_info;', confSection='Sqlserver'))
 
     @nottest
     def test_OA(self):
@@ -96,37 +108,37 @@ class test_demo(object):
                              ('B', ['B1']),
                              ('C', ['C1'])])
 
-        print json.dumps(oat.genSets(case1))
-        print json.dumps(oat.genSets(case2))
-        print json.dumps(oat.genSets(case3))
-        print json.dumps(oat.genSets(case4))
-        print json.dumps(oat.genSets(case4, 1, 0))
-        print json.dumps(oat.genSets(case4, 1, 1))
-        print json.dumps(oat.genSets(case4, 1, 2))
-        print json.dumps(oat.genSets(case4, 1, 3))
+        print (json.dumps(oat.genSets(case1)))
+        print (json.dumps(oat.genSets(case2)))
+        print (json.dumps(oat.genSets(case3)))
+        print (json.dumps(oat.genSets(case4)))
+        print (json.dumps(oat.genSets(case4, 1, 0)))
+        print (json.dumps(oat.genSets(case4, 1, 1)))
+        print (json.dumps(oat.genSets(case4, 1, 2)))
+        print (json.dumps(oat.genSets(case4, 1, 3)))
 
     @nottest
     def test_redis(self):
         # redis/redis cluster操作 demo
-        print RedisUtil.execute('hexists', 'Search:HotWord', u'刘德华')
-        print RedisUtil.execute("get", "userSession:%s", "12345", confSection='Redis_Cluster')
+        print (RedisUtil.execute('hexists', 'Search:HotWord', u'刘德华'))
+        print (RedisUtil.execute("get", "userSession:%s", "12345", confSection='Redis_Cluster'))
 
     @nottest
     def test_security(self):
         # 加密方法使用demo
         import string
         sec = Security()
-        key_8 = string.lowercase[:8]
-        key_16 = string.lowercase[:16]
+        key_8 = str.lower()
+        key_16 = str.lower()
         data = 'Taffy is a Test Automation Framework based on nosetests.'
 
-        print 'DES:', sec.getDES(key_8, data).encode('hex')  # des
-        print 'Decode DES:', sec.decodeDES(key_8, sec.getDES(key_8, data))  # decode des
-        print 'DES3:', sec.getDES3(key_16, data).encode('hex')  # desc3
-        print 'Decode DES3:', sec.decodeDES3(key_16, sec.getDES3(key_16, data))  # decode desc3
-        print 'HMAC_SHA1:', sec.getHMAC_SHA1(key_8, data)  # sha1
-        print 'SHA:', sec.getSHA(data)  # sha
-        print 'MD5:', sec.getMD5(data)  # md5
-        print 'AES:', sec.getAES(key_16, data).encode('hex')  # aes
-        print'Base64:', sec.getBase64(data)  # base64
-        print'Decode Base64:', sec.decodeBase64(sec.getBase64(data))  # decode base64
+        print ('DES:', sec.getDES(key_8, data).encode('hex') ) # des
+        print ('Decode DES:', sec.decodeDES(key_8, sec.getDES(key_8, data)))  # decode des
+        print ('DES3:', sec.getDES3(key_16, data).encode('hex'))  # desc3
+        print ('Decode DES3:', sec.decodeDES3(key_16, sec.getDES3(key_16, data)))  # decode desc3
+        print ('HMAC_SHA1:', sec.getHMAC_SHA1(key_8, data))  # sha1
+        print ('SHA:', sec.getSHA(data))  # sha
+        print ('MD5:', sec.getMD5(data))  # md5
+        print ('AES:', sec.getAES(key_16, data).encode('hex'))  # aes
+        print('Base64:', sec.getBase64(data))  # base64
+        print('Decode Base64:', sec.decodeBase64(sec.getBase64(data)))  # decode base64

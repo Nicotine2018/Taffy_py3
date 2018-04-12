@@ -93,10 +93,10 @@ class CheckUtil(object):
             return True
 
         else:
-            if isinstance(jsondata, unicode):
-                jsondata = jsondata.encode('utf-8')
-            if isinstance(data, unicode):
-                data = data.encode('utf-8')
+            if isinstance(jsondata, bytes):
+                jsondata = jsondata.decode('utf-8')
+            if isinstance(data, bytes):
+                data = data.decode('utf-8')
             try:
                 assert data == jsondata, '%s != %s' % (data, jsondata)
                 return data == jsondata

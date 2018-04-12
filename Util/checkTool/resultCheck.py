@@ -1,5 +1,5 @@
 # coding=utf-8
-from checkUtil import *
+from Util.checkTool.checkUtil import *
 import re
 
 
@@ -10,7 +10,7 @@ class resultCheck_baidu(object):
         expect_title = key + u'_百度搜索'
         re_title = re.compile('<title>(.*)</title>')  # 搜索页面title正则表达式
         title = re.search(re_title, response).groups()[0]
-        print 'Search Result Title:%s' % title
+        print ('Search Result Title:%s' % title)
         eq_(title, expect_title, 'Title Check Error!%s != %s' % (title, expect_title))
 
     @staticmethod
@@ -25,7 +25,7 @@ class resultCheck_baidu(object):
             # name,url简单处理，去除特殊符号
             name = name.replace('</em>', '').replace('<em>', '')
             url = url.replace('<b>', '').replace('</b>', '').replace('&nbsp;', '').replace('...', '')
-            print 'Search Results Name:%s\tURL:%s' % (name, url)
+            print ('Search Results Name:%s\tURL:%s' % (name, url))
             if key.lower() not in (name + url).lower():
                 assert False, 'Search Results Check Error!%s not in %s' % (key, name + url)
         return True

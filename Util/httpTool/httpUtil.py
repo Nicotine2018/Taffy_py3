@@ -2,14 +2,16 @@
 
 import json
 import requests
+
+from Util.commonTool.configUtil import ConfigUtil
 from ..commonTool import *
 
 
 def _decode_list(data):
     rv = []
     for item in data:
-        if isinstance(item, unicode):
-            item = item.encode('utf-8')
+        if isinstance(item, bytes):
+            item = item.decode('utf-8')
         elif isinstance(item, list):
             item = _decode_list(item)
         elif isinstance(item, dict):
@@ -21,9 +23,9 @@ def _decode_list(data):
 def _decode_dict(data):
     rv = {}
     for key, value in data.iteritems():
-        if isinstance(key, unicode):
-            key = key.encode('utf-8')
-            value = value.encode('utf-8')
+        if isinstance(key, bytes):
+            key = key.decode('utf-8')
+            value = value.decode('utf-8')
         elif isinstance(value, list):
             value = _decode_list(value)
         elif isinstance(value, dict):
@@ -89,9 +91,9 @@ class BaiduHttpUtil(object):
     @classmethod
     def get(cls, name, srequest):
         params = srequest.GetDict()
-        print 'Request:\t', json.dumps(params, ensure_ascii=False)
+        print ('Request:\t', json.dumps(params, ensure_ascii=False))
         response = HttpUtil.get(name, params=params)
-        print 'Response:\t', response
+        print ('Response:\t', response)
         return response.text
 
 
@@ -105,15 +107,15 @@ class HttpbinUtil(object):
     @classmethod
     def get(cls, name, srequest):
         params = srequest.GetDict()
-        print 'Request:\t', json.dumps(params, ensure_ascii=False)
+        print ('Request:\t', json.dumps(params, ensure_ascii=False))
         response = HttpUtil.get(name, cls.confSection, params=params)
-        print 'Response:\t', response.text
+        print ('Response:\t', response.text)
         return response.json()
 
     @classmethod
     def post(cls, name, srequest):
         params = srequest.GetDict()
-        print 'Request:\t', json.dumps(params, ensure_ascii=False)
+        print ('Request:\t', json.dumps(params, ensure_ascii=False))
         response = HttpUtil.post(name, cls.confSection, data=params)
-        print 'Response:\t', response.text
+        print ('Response:\t', response.text)
         return response.json()

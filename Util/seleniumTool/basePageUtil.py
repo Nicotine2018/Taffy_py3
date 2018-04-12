@@ -39,7 +39,7 @@ class basePage(object):
         # 使用get打开访问链接地址
         self.driver.get(url)
         self.driver.maximize_window()
-        print self.driver.title,self.driver.current_url
+        print (self.driver.title,self.driver.current_url)
         if pagetitle:
             # 使用assert进行校验，打开的窗口title是否与配置的title一致。调用on_page()方法
             assert self.on_page(pagetitle), "Check Page Error:\t%s" % url
@@ -66,7 +66,7 @@ class basePage(object):
             # 等待元素可见
             return WebDriverWait(self.driver, 5).until(EC.visibility_of_any_elements_located(loc))
         except BaseException:
-            print 'page {0} does not have locator {1}'.format(self, loc)
+            print ('page {0} does not have locator {1}'.format(self, loc))
 
     # 重写switch_frame方法
     def switch_frame(self, loc):
@@ -90,7 +90,7 @@ class basePage(object):
 
             self.find_element(loc).send_keys(vaule)
         except AttributeError:
-            print '%s page does not have "%s" locator' % (self, loc)
+            print ('%s page does not have "%s" locator' % (self, loc))
 
     # 重写鼠标悬停方法
     def move_to_element(self, element='', loc=''):

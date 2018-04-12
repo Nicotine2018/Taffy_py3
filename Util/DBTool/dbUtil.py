@@ -1,12 +1,14 @@
 # coding=utf-8
 import sys
 import os
-import MySQLdb
-import pymssql
+#import pymssql
+import pymysql
 
 from DBUtils import PooledDB
-from mysqlUtil import *
-from sqlserverUtil import *
+from .mysqlUtil import *
+from .sqlserverUtil import *
+
+from Util.commonTool.configUtil import ConfigUtil
 from ..commonTool import *
 
 
@@ -90,7 +92,7 @@ class DBUtil(object):
             data = instance.execute(sql, params)
 
         except Exception as e:
-            print e
+            print(e)
 
         finally:
             instance.close()

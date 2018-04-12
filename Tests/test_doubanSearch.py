@@ -2,8 +2,8 @@
 
 import sys
 import os
-reload(sys)
-sys.setdefaultencoding("utf-8")
+#reload(sys)
+#sys.setdefaultencoding("utf-8")
 import requests
 import json
 from datetime import datetime as dt
@@ -42,7 +42,7 @@ def send_mail():
         # 退出
         s.quit()
     except Exception as e:
-        print "Exceptioin ", e
+        print ("Exceptioin ", e)
 
 
 class check_response():
@@ -101,10 +101,10 @@ class test_doubanSearch(object):
     def search(params, expectNum=None):
         url = 'https://api.douban.com/v2/movie/search'
         r = requests.get(url, params=params)
-        print 'Search Params:\n', json.dumps(params, ensure_ascii=False)
-        print 'Search Response:\n', json.dumps(r.json(), ensure_ascii=False, indent=4)
-        code = r.json().get('code')
-        if code > 0:
+        print ('Search Params:\n', json.dumps(params, ensure_ascii=False))
+        print ('Search Response:\n', json.dumps(r.json(), ensure_ascii=False, indent=4))
+        code = r.status_code
+        if code != 200:
             assert False, 'Invoke Error.Code:\t{0}'.format(code)
         else:
             if params.get('start') is not None or params.get('count') is not None:
@@ -120,7 +120,7 @@ class test_doubanSearch(object):
         for q in qs:
             params = dict(q=q)
             f = partial(test_doubanSearch.search, params)
-            f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+            f.description = json.dumps(params, ensure_ascii=False)
             yield (f,)
 
     def test_tag(self):
@@ -129,7 +129,7 @@ class test_doubanSearch(object):
         for tag in tags:
             params = dict(tag=tag)
             f = partial(test_doubanSearch.search, params)
-            f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+            f.description = json.dumps(params, ensure_ascii=False)
             yield (f,)
 
     def test_param_combination(self):
@@ -141,10 +141,10 @@ class test_doubanSearch(object):
         for params in params_list:
             if isinstance(params, tuple):
                 f = partial(test_doubanSearch.search, params[0], params[1])
-                f.description = json.dumps(params[0], ensure_ascii=False).encode('utf-8')
+                f.description = json.dumps(params[0], ensure_ascii=False)
             else:
                 f = partial(test_doubanSearch.search, params)
-                f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+                f.description = json.dumps(params, ensure_ascii=False)
             yield (f,)
 
     def test_page(self):
@@ -155,7 +155,7 @@ class test_doubanSearch(object):
             start = page * count
             params = dict(q=q, start=start, count=count)
             f = partial(test_doubanSearch.search, params)
-            f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+            f.description = json.dumps(params, ensure_ascii=False)
             yield (f,)
 
     def test_param_q(self):
@@ -165,11 +165,11 @@ class test_doubanSearch(object):
             if isinstance(q, tuple):
                 params = dict(q=q[0])
                 f = partial(test_doubanSearch.search, params, q[1])
-                f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+                f.description = json.dumps(params, ensure_ascii=False)
             else:
                 params = dict(q=q)
                 f = partial(test_doubanSearch.search, params)
-                f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+                f.description = json.dumps(params, ensure_ascii=False)
             yield (f,)
 
     def test_param_tag(self):
@@ -179,11 +179,11 @@ class test_doubanSearch(object):
             if isinstance(tag, tuple):
                 params = dict(tag=tag[0])
                 f = partial(test_doubanSearch.search, params, tag[1])
-                f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+                f.description = json.dumps(params, ensure_ascii=False)
             else:
                 params = dict(tag=tag)
                 f = partial(test_doubanSearch.search, params)
-                f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+                f.description = json.dumps(params, ensure_ascii=False)
             yield (f,)
 
     def test_param_start(self):
@@ -192,7 +192,7 @@ class test_doubanSearch(object):
         for start in start_list:
             params = dict(q=q, start=start)
             f = partial(test_doubanSearch.search, params)
-            f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+            f.description = json.dumps(params, ensure_ascii=False)
             yield (f,)
 
     def test_param_count(self):
@@ -201,7 +201,7 @@ class test_doubanSearch(object):
         for count in count_list:
             params = dict(tag=tag, count=count)
             f = partial(test_doubanSearch.search, params)
-            f.description = json.dumps(params, ensure_ascii=False).encode('utf-8')
+            f.description = json.dumps(params, ensure_ascii=False)
             yield (f,)
 
 
@@ -220,9 +220,9 @@ if __name__ == '__main__':
     report_file = 'TestReport.html'
 
     # 运行nosetests进行自动化测试并生成测试报告
-    print 'Run Nosetests Now...'
+    print ('Run Nosetests Now...')
     os.system('nosetests -v test_doubanSearch.py:test_doubanSearch --with-html --html-file={0}'.format(report_file))
 
     # 发送测试报告邮件
-    print 'Send Test Report Mail Now...'
+    print ('Send Test Report Mail Now...')
     send_mail()

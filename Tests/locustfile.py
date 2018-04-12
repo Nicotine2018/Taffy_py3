@@ -2,9 +2,12 @@ import time
 from locust import Locust, TaskSet, events, task
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-from test_demo import test_demo
+
+from Tests.test_demo import test_demo
+
+#sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
 
 
 class HttpClient(object):

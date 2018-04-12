@@ -1,9 +1,9 @@
 # coding=utf-8
 import sys
 import os
-import pymssql
+#import pymssql
 
-from baseUtil import *
+from Util.DBTool.baseUtil import *
 
 
 class SqlserverUtil(BaseUtil):
@@ -22,9 +22,9 @@ class SqlserverUtil(BaseUtil):
         for row in data:
             if isinstance(row, dict):
                 for key in row:
-                    if isinstance(row[key], unicode):
+                    if isinstance(row[key], bytes):
                         try:
-                            row[key] = row[key].encode('iso8859-1').decode('gbk')
+                            row[key] = row[key].decode('iso8859-1').encode('gbk')
                         except UnicodeError:
                             pass
         return data
@@ -38,6 +38,6 @@ class SqlserverUtil(BaseUtil):
         except Exception as e:
             if self.connection:
                 self.connection.rollback()
-            print e
+            print (e)
         finally:
             return result
