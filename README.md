@@ -1,4 +1,4 @@
-# Taffy
+# Taffy python3 version
 
 Taffy is a Test Automation Framework based on nosetests.
 
